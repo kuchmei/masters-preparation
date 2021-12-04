@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -21,7 +22,7 @@ public class AttendanceSchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date date;
+    private LocalDateTime date;
 
     private String comment;
 
@@ -29,12 +30,12 @@ public class AttendanceSchedule {
 
     @ManyToOne()
     @JsonBackReference
-    @JoinColumn(name = "customer_email", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "customer_email")
     private Customer client;
 
     @ManyToOne()
     @JsonBackReference
-    @JoinColumn(name = "customer_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "customer_id")
     private Customer worker;
 
 }

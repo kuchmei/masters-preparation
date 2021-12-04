@@ -25,10 +25,7 @@
                 <a class="nav-link" th:href="@{/customers}">Client Management</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/attendance/date}">By Date</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/attendance}">Attendance Schedule(For Admin)</a>
+                <a class="nav-link" th:href="@{/customers}">Professional Management</a>
             </li>
         </ul>
     </div>
@@ -36,7 +33,7 @@
 
 <div class ="container">
     <div class = "row">
-        <h1> List Clients </h1>
+        <h1> Error </h1>
     </div>
 
     <div class = "row">
@@ -44,33 +41,7 @@
             <a th:href = "@{/customers/new}" class = "btn btn-primary btn-sm mb-3"> Add customer</a>
         </div>
     </div>
-    <table class = "table table-striped table-bordered">
-        <thead class = "table-dark">
-        <tr>
-            <th> Client First Name</th>
-            <th> Client Last Name</th>
-            <th> Client Email </th>
-            <th> Actions </th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr th:each = "customer: ${customers}">
-            <td th:text = "${customer.firstName}"></td>
-            <td th:text = "${customer.lastName}"></td>
-            <td th:text = "${customer.email}"></td>
-            <td>
-                <a th:href = "@{/customers/edit/{id}(id=${customer.id})}"
-                   class = "btn btn-primary">Update</a>
-
-                <a th:href = "@{/customers/{id}(id=${customer.id})}"
-                   class = "btn btn-danger">Delete</a>
-
-            </td>
-        </tr>
-        </tbody>
-
-    </table>
+    <img src="https://st2.depositphotos.com/1526816/6758/v/600/depositphotos_67585141-stock-illustration-oops.jpg" alt="!">
 
 </div>
 </body>

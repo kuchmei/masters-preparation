@@ -2,6 +2,7 @@ package com.example.poc.masterspreparation.service;
 
 import com.example.poc.masterspreparation.dto.AttendanceScheduleDto;
 import com.example.poc.masterspreparation.model.AttendanceSchedule;
+import com.example.poc.masterspreparation.model.Customer;
 import com.example.poc.masterspreparation.repository.AttendanceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,17 +22,18 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 
     public void saveAttendance(AttendanceScheduleDto attendanceScheduleDto) {
-        AttendanceSchedule attendanceSchedule = AttendanceSchedule.builder()
-                .comment(attendanceScheduleDto.getComment())
-                .date(attendanceScheduleDto.getDate())
-                .client(customerService.findByEmail(attendanceScheduleDto.getClientEmail()))
-                .worker(customerService.findByEmail(attendanceScheduleDto.getWorkerEmail()))
-                .sum(attendanceScheduleDto.getSum())
-                .build();
+        AttendanceSchedule attendanceSchedule = new AttendanceSchedule();
+        attendanceSchedule.setComment(attendanceScheduleDto.getComment());
+        attendanceSchedule.setDate(LocalDateTime.parse(attendanceScheduleDto.getDate()));
+        attendanceSchedule.setClient(customerService.findByEmail(attendanceScheduleDto.getClientEmail()));
+        final Customer byEmail = customerService.findByEmail(attendanceScheduleDto.getWorkerEmail());
+        attendanceSchedule.setWorker(byEmail);
+        attendanceSchedule.setSum(attendanceScheduleDto.getSum());
         attendanceRepository.save(attendanceSchedule);
     }
 
-    public List<AttendanceScheduleDto> getAttendanceScheduleForDate(Date startDate, Date finishDate, String email) {
+    public List<AttendanceScheduleDto> getAttendanceScheduleForDate(LocalDateTime startDate, LocalDateTime finishDate, String email) {
+
         return attendanceRepository.findAll().stream()
                 .filter(attendanceSchedule -> attendanceSchedule.getWorker().getEmail().equalsIgnoreCase(email))
                 .filter(attendanceSchedule -> attendanceSchedule.getDate().compareTo(startDate) >= 0 && attendanceSchedule.getDate().compareTo(finishDate) <= 0)
@@ -39,7 +41,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                 .collect(Collectors.toList());
     }
 
-    public List<AttendanceScheduleDto> getAttendanceScheduleForToday(String email){
+    public List<AttendanceScheduleDto> getAttendanceScheduleForToday(String email) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String time = dtf.format(LocalDateTime.now());
         return attendanceRepository.findAll().stream()
@@ -54,20 +56,21 @@ public class AttendanceServiceImpl implements AttendanceService {
         List<Double> sumList = attendanceScheduleDtos.stream()
                 .map(AttendanceScheduleDto::getSum)
                 .collect(Collectors.toList());
-        for ( Double s : sumList) {
+        for (Double s : sumList) {
             allSum += s;
         }
         return allSum;
     }
 
     private AttendanceScheduleDto toAttendanceScheduleDto(AttendanceSchedule attendanceSchedule) {
-        return AttendanceScheduleDto.builder()
-                .date(attendanceSchedule.getDate())
-                .comment(attendanceSchedule.getComment())
-                .clientEmail(attendanceSchedule.getClient().getEmail())
-                .workerEmail(attendanceSchedule.getWorker().getEmail())
-                .sum(attendanceSchedule.getSum())
-                .build();
+        AttendanceScheduleDto attendanceScheduleDto = new AttendanceScheduleDto();
+        attendanceScheduleDto.setDate(attendanceSchedule.getDate().toString());
+        attendanceScheduleDto.setComment(attendanceSchedule.getComment());
+        attendanceScheduleDto.setClientEmail(attendanceSchedule.getClient().getEmail());
+        attendanceScheduleDto.setWorkerEmail(attendanceSchedule.getWorker().getEmail());
+        attendanceScheduleDto.setSum(attendanceSchedule.getSum());
+
+        return attendanceScheduleDto;
     }
 
 }

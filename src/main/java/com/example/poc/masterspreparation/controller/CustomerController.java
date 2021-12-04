@@ -1,5 +1,6 @@
 package com.example.poc.masterspreparation.controller;
 
+import com.example.poc.masterspreparation.dto.CustomerDto;
 import com.example.poc.masterspreparation.model.Customer;
 import com.example.poc.masterspreparation.service.CustomerService;
 import com.example.poc.masterspreparation.service.MailService;
@@ -19,26 +20,21 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    // handler method to handle list students and return mode and view
     @GetMapping()
-    public String listCustomers(Model model, Principal principal) {
-        System.out.println(principal.getName());
-
+    public String listCustomers(Model model) {
         model.addAttribute("customers", customerService.getAllCustomers());
         return "customers";
     }
 
     @GetMapping("/new")
     public String createCustomerForm(Model model) {
-        // create student object to hold student form data
-        Customer customer = new Customer();
+        CustomerDto customer = new CustomerDto();
         model.addAttribute("customer", customer);
         return "create_customer";
-
     }
 
     @PostMapping()
-    public String saveCustomer(@ModelAttribute("customer") Customer customer) {
+    public String saveCustomer(@ModelAttribute("customer") CustomerDto customer) {
         customerService.saveCustomer(customer);
         return "redirect:/customers";
     }
