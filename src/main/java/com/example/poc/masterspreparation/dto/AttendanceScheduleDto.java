@@ -11,6 +11,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class AttendanceScheduleDto {
 
+    private Long id;
+
     private String date;
 
     private String comment;

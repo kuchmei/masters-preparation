@@ -26,8 +26,17 @@ public class AttendanceServiceImpl implements AttendanceService {
         attendanceSchedule.setComment(attendanceScheduleDto.getComment());
         attendanceSchedule.setDate(LocalDateTime.parse(attendanceScheduleDto.getDate()));
         attendanceSchedule.setClient(customerService.findByEmail(attendanceScheduleDto.getClientEmail()));
-        final Customer byEmail = customerService.findByEmail(attendanceScheduleDto.getWorkerEmail());
-        attendanceSchedule.setWorker(byEmail);
+        attendanceSchedule.setWorker( customerService.findByEmail(attendanceScheduleDto.getWorkerEmail()));
+        attendanceSchedule.setSum(attendanceScheduleDto.getSum());
+        attendanceRepository.save(attendanceSchedule);
+    }
+    public void updateAttendance(AttendanceScheduleDto attendanceScheduleDto, Long id) {
+        AttendanceSchedule attendanceSchedule = new AttendanceSchedule();
+        attendanceSchedule.setId(id);
+        attendanceSchedule.setComment(attendanceScheduleDto.getComment());
+        attendanceSchedule.setDate(LocalDateTime.parse(attendanceScheduleDto.getDate()));
+        attendanceSchedule.setClient(customerService.findByEmail(attendanceScheduleDto.getClientEmail()));
+        attendanceSchedule.setWorker( customerService.findByEmail(attendanceScheduleDto.getWorkerEmail()));
         attendanceSchedule.setSum(attendanceScheduleDto.getSum());
         attendanceRepository.save(attendanceSchedule);
     }
@@ -62,8 +71,19 @@ public class AttendanceServiceImpl implements AttendanceService {
         return allSum;
     }
 
+    public AttendanceScheduleDto getAttendanceScheduleById(Long id) {
+        return toAttendanceScheduleDto(attendanceRepository.findById(id).get());
+    }
+
+    @Override
+    public void deleteAttendanceById(Long id) {
+        AttendanceSchedule attendanceSchedule = attendanceRepository.getOne(id);
+        attendanceRepository.delete(attendanceSchedule);
+    }
+
     private AttendanceScheduleDto toAttendanceScheduleDto(AttendanceSchedule attendanceSchedule) {
         AttendanceScheduleDto attendanceScheduleDto = new AttendanceScheduleDto();
+        attendanceScheduleDto.setId(attendanceSchedule.getId());
         attendanceScheduleDto.setDate(attendanceSchedule.getDate().toString());
         attendanceScheduleDto.setComment(attendanceSchedule.getComment());
         attendanceScheduleDto.setClientEmail(attendanceSchedule.getClient().getEmail());
@@ -72,5 +92,4 @@ public class AttendanceServiceImpl implements AttendanceService {
 
         return attendanceScheduleDto;
     }
-
 }

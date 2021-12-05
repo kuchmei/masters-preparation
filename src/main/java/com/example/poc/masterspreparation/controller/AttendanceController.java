@@ -2,12 +2,15 @@ package com.example.poc.masterspreparation.controller;
 
 import com.example.poc.masterspreparation.dto.AttendanceScheduleDto;
 import com.example.poc.masterspreparation.dto.ScheduleRequestDto;
+import com.example.poc.masterspreparation.model.Customer;
 import com.example.poc.masterspreparation.service.AttendanceService;
+import com.sun.istack.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
@@ -54,6 +57,27 @@ public class AttendanceController {
     @PostMapping(value = "/attendance")
     public String addAttendance(@ModelAttribute("attendance") AttendanceScheduleDto attendance, Model model, Principal principal) {
         attendanceService.saveAttendance(attendance);
+        model.addAttribute("attendances", attendanceService.getAttendanceScheduleForToday(principal.getName()));
+        return "attendances";
+    }
+
+    @GetMapping("/attendance/edit/{id}")
+    public String editCustomerForm(@PathVariable Long id, @NotNull Model model) {
+        model.addAttribute("attendance", attendanceService.getAttendanceScheduleById(id));
+        return "edit_attendance";
+    }
+
+    @PostMapping("/attendance/{id}")
+    public String updateAttendance(@PathVariable Long id,
+                                   @ModelAttribute("attendance") AttendanceScheduleDto attendanceScheduleDto, Principal principal, Model model) {
+        attendanceService.updateAttendance(attendanceScheduleDto, id);
+        model.addAttribute("attendances", attendanceService.getAttendanceScheduleForToday(principal.getName()));
+        return "attendances";
+    }
+
+    @GetMapping("/attendance/{id}")
+    public String deleteCustomer(@PathVariable Long id, Model model, Principal principal) {
+        attendanceService.deleteAttendanceById(id);
         model.addAttribute("attendances", attendanceService.getAttendanceScheduleForToday(principal.getName()));
         return "attendances";
     }

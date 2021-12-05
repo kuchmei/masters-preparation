@@ -60,14 +60,14 @@
             <td th:text = "${attendance.comment}"></td>
             <td th:text = "${attendance.clientEmail}"></td>
             <td th:text = "${attendance.workerEmail}"></td>
-<!--            <td>-->
-<!--                <a th:href = "@{/customers/edit/{id}(id=${customer.id})}"-->
-<!--                   class = "btn btn-primary">Update</a>-->
+            <td>
+                <a th:href = "@{/attendance/edit/{id}(id=${attendance.id})}"
+                   class = "btn btn-primary">Update</a>
 
-<!--                <a th:href = "@{/customers/{id}(id=${customer.id})}"-->
-<!--                   class = "btn btn-danger">Delete</a>-->
+                <a th:href = "@{/attendance/{id}(id=${attendance.id})}"
+                   class = "btn btn-danger">Delete</a>
 
-<!--            </td>-->
+            </td>
         </tr>
         </tbody>
 
