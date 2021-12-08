@@ -1,18 +1,11 @@
 package com.example.poc.masterspreparation.service;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.example.poc.masterspreparation.dto.CustomerDto;
 import com.example.poc.masterspreparation.exception.CustomerCreationException;
 import com.example.poc.masterspreparation.model.Customer;
 import com.example.poc.masterspreparation.model.Role;
 import com.example.poc.masterspreparation.repository.CustomerRepository;
 import com.example.poc.masterspreparation.repository.RoleRepository;
-import com.example.poc.masterspreparation.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,6 +17,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -57,8 +54,7 @@ public class CustomerServiceImpl implements CustomerService, UserDetailsService 
         if (customer.getIsAdmin()) {
             customerModel.setRoles(Collections.singletonList(roleRepository.findByName("ROLE_ADMIN")));
             customerModel.setAdmin(true);
-        }
-         else {
+        } else {
             customerModel.setRoles(Collections.singletonList(roleRepository.findByName("ROLE_USER")));
         }
         return clientRepository.save(customerModel);
