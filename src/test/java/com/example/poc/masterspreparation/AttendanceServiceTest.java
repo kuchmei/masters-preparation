@@ -37,8 +37,8 @@ public class AttendanceServiceTest {
         customer.setEmail("1@gmail.com");
         Customer worker = new Customer();
         worker.setEmail("2@gmail.com");
-        when(customerService.findByEmail("1@gmail.com")).thenReturn(customer);
-        when(customerService.findByEmail("2@gmail.com")).thenReturn(worker);
+        when(customerRepository.findByEmail("1@gmail.com")).thenReturn(customer);
+        when(customerRepository.findByEmail("2@gmail.com")).thenReturn(worker);
         when(attendanceRepository.save(getAttendanceSchedule(localDateTime))).thenReturn(getAttendanceSchedule(localDateTime));
 
         attendanceService.saveAttendance(getAttendanceScheduleDto(localDateTime));
@@ -51,7 +51,7 @@ public class AttendanceServiceTest {
     public void getAttendanceScheduleForDate_okTest() {
         when(attendanceRepository.findAll()).thenReturn(getListOfAttendance());
 
-        List<AttendanceScheduleDto> actual = attendanceService.getAttendanceScheduleForDate(LocalDateTime.parse("2021-12-08T23:55:59.904833800"), LocalDateTime.parse("2021-12-12T23:55:59.904833800"), "worker@gmail.com");
+        List<AttendanceScheduleDto> actual = attendanceService.getAttendanceScheduleForDate(LocalDateTime.parse("2021-12-08T23:55:59.904833800"), LocalDateTime.parse("2021-12-29T23:55:59.904833800"), "worker@gmail.com");
 
         assertEquals(3, actual.size());
     }
@@ -93,7 +93,7 @@ public class AttendanceServiceTest {
         attendanceScheduleDto.setWorkerEmail("2@gmail.com");
         attendanceScheduleDto.setDate(localDateTime.toString());
         attendanceScheduleDto.setComment("Comment");
-        attendanceScheduleDto.setSum(400.0);
+        attendanceScheduleDto.setSum(400);
 
         return attendanceScheduleDto;
 
@@ -110,7 +110,7 @@ public class AttendanceServiceTest {
         attendanceSchedule.setWorker(worker);
         attendanceSchedule.setDate(localDateTime);
         attendanceSchedule.setComment("Comment");
-        attendanceSchedule.setSum(400.0);
+        attendanceSchedule.setSum(400);
 
         return attendanceSchedule;
     }
@@ -123,28 +123,28 @@ public class AttendanceServiceTest {
         attendanceSchedule1.setWorker(worker);
         attendanceSchedule1.setDate(LocalDateTime.parse("2021-12-08T23:55:59.904833800"));
         attendanceSchedule1.setComment("Comment");
-        attendanceSchedule1.setSum(400.0);
+        attendanceSchedule1.setSum(400);
 
         AttendanceSchedule attendanceSchedule2 = new AttendanceSchedule();
         attendanceSchedule2.setClient(new Customer());
         attendanceSchedule2.setWorker(worker);
-        attendanceSchedule2.setDate(LocalDateTime.parse("2021-12-12T20:55:59.904833800"));
+        attendanceSchedule2.setDate(LocalDateTime.parse("2021-12-29T20:55:59.904833800"));
         attendanceSchedule2.setComment("Comment");
-        attendanceSchedule2.setSum(400.0);
+        attendanceSchedule2.setSum(400);
 
         AttendanceSchedule attendanceSchedule3 = new AttendanceSchedule();
         attendanceSchedule3.setClient(new Customer());
         attendanceSchedule3.setWorker(worker);
         attendanceSchedule3.setDate(LocalDateTime.parse("2021-12-01T23:55:59.904833800"));
         attendanceSchedule3.setComment("Comment");
-        attendanceSchedule3.setSum(400.0);
+        attendanceSchedule3.setSum(400);
 
         AttendanceSchedule attendanceSchedule4 = new AttendanceSchedule();
         attendanceSchedule4.setClient(new Customer());
         attendanceSchedule4.setWorker(worker);
         attendanceSchedule4.setDate(LocalDateTime.now());
         attendanceSchedule4.setComment("Comment");
-        attendanceSchedule4.setSum(400.0);
+        attendanceSchedule4.setSum(400);
 
 
         return List.of(attendanceSchedule1, attendanceSchedule2, attendanceSchedule3, attendanceSchedule4);

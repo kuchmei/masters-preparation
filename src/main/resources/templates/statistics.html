@@ -34,10 +34,10 @@
                 <a class="nav-link" th:href="@{/attendance}">Finance Today()</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/finance/date}">Finance By Date</a>
+                <a class="nav-link" th:href="@{/attendance}">Finance By Date</a>
             </li>
                  <li class="nav-item">
-                <a class="nav-link" th:href="@{/statistic/date}">Statistic</a>
+                <a class="nav-link" th:href="@{/attendance}">Statistic</a>
             </li>
 
         </ul>
@@ -60,26 +60,21 @@
     <table class = "table table-striped table-bordered">
         <thead class = "table-dark">
         <tr>
-            <th> Client First Name</th>
-            <th> Client Last Name</th>
-            <th> Client Email </th>
-            <th> Actions </th>
+            <th> Revenue</th>
+            <th> Total</th>
+            <th> Total</th>
+            <th> Total</th>
+            <th> Total</th>
         </tr>
         </thead>
 
         <tbody>
-        <tr th:each = "customer: ${customers}">
-            <td th:text = "${customer.firstName}"></td>
-            <td th:text = "${customer.lastName}"></td>
-            <td th:text = "${customer.email}"></td>
-            <td>
-                <a th:href = "@{/customers/edit/{id}(id=${customer.id})}"
-                   class = "btn btn-primary">Update</a>
-
-                <a th:href = "@{/customers/{id}(id=${customer.id})}"
-                   class = "btn btn-danger">Delete</a>
-
-            </td>
+        <tr th:each = "statistic: ${statisticDtos}">
+            <td th:text = "${statistic.priority}"></td>
+            <td th:text = "${statistic.name}"></td>
+            <td th:text = "${statistic.sum}"></td>
+            <td th:text = "${statistic.middle}"></td>
+            <td th:text = "${statistic.count}"></td>
         </tr>
         </tbody>
 

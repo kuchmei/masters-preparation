@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="ISO-8859-1">
     <title>Client Management System</title>
@@ -44,11 +44,12 @@
             <a th:href = "@{/attendance/new}" class = "btn btn-primary btn-sm mb-3"> Add attendance</a>
         </div>
     </div>
-    <table class = "table table-striped table-bordered">
+    <table id="table" class = "table table-striped table-bordered">
         <thead class = "table-dark">
         <tr>
             <th> Attendance Date</th>
             <th> Comment</th>
+            <th> Sum</th>
             <th> Client Email </th>
             <th> Worker Email </th>
         </tr>
@@ -58,6 +59,7 @@
         <tr th:each = "attendance: ${attendances}">
             <td th:text = "${attendance.date}"></td>
             <td th:text = "${attendance.comment}"></td>
+            <td th:text = "${attendance.sum}"></td>
             <td th:text = "${attendance.clientEmail}"></td>
             <td th:text = "${attendance.workerEmail}"></td>
             <td>
@@ -70,8 +72,13 @@
             </td>
         </tr>
         </tbody>
-
+        <tr>
+            <td th:text="Total"></td>
+            <td class=></td>
+            <td th:text="${price.totalPrice}"></td>
+        </tr>
     </table>
+
 
 </div>
 </body>

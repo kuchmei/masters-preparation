@@ -26,7 +26,7 @@ public class AttendanceSchedule {
 
     private String comment;
 
-    private Double sum;
+    private Integer sum;
 
     @ManyToOne()
     @JsonBackReference

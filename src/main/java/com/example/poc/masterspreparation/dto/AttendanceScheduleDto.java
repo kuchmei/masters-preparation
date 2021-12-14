@@ -17,5 +17,5 @@ public class AttendanceScheduleDto {
 
     private String workerEmail;
 
-    private Double sum;
+    private Integer sum;
 }
