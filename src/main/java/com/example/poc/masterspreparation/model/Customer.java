@@ -46,5 +46,9 @@ public class Customer {
     @JsonManagedReference
     private Collection<AttendanceSchedule> workerSchedulesSchedules;
 
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.REMOVE)
+    @JsonManagedReference
+    private Collection<Goal> workerGoals;
+
     private boolean isAdmin;
 }

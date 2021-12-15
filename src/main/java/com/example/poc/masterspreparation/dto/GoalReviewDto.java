@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FinanceDto {
-  private String revenueName;
+public class GoalReviewDto {
 
-  private Integer totalPrice;
+    private String name;
+    private Integer goal;
+    private String comment;
 }

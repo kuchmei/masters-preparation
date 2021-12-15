@@ -43,41 +43,29 @@
         </ul>
     </div>
 </nav>
+<!--<script>-->
+<!--    let d = new Date();-->
+<!--    document.body.innerHTML = "<h1>Today's date is " + d + "</h1>"-->
+<!--</script>-->
 <div class ="container">
     <div class = "row">
-        <h1> Finance Monitoring </h1>
+        <h1> List Clients </h1>
     </div>
 
-    <div class = "row">
-        <div class = "col-lg-3">
-            <a th:href = "@{/customers/new}" class = "btn btn-primary btn-sm mb-3"> Add customer</a>
-        </div>
-    </div>
     <table class = "table table-striped table-bordered">
         <thead class = "table-dark">
         <tr>
-            <th> Revenue</th>
+            <th> Goal Name</th>
+            <th> Total</th>
             <th> Total</th>
         </tr>
         </thead>
 
         <tbody>
-        <tr th:each = "finance: ${financesPlus}">
-            <td th:text = "${finance.revenueName}"></td>
-            <td th:text = "${finance.totalPrice}"></td>
-        </tr>
-        </tbody>
-        <thead class = "table-dark">
-        <tr>
-            <th> Expenses</th>
-            <th> Total</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr th:each = "finance: ${financesMinus}">
-            <td th:text = "${finance.revenueName}"></td>
-            <td th:text = "${finance.totalPrice}"></td>
+        <tr th:each = "goal: ${goals}">
+            <td th:text = "${goal.name}"></td>
+            <td th:text = "${goal.goal}"></td>
+            <td th:text = "${goal.comment}"></td>
         </tr>
         </tbody>
 
