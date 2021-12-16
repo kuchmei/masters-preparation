@@ -17,7 +17,11 @@ public interface AttendanceService {
 
     List<AttendanceScheduleDto> getAttendanceScheduleForDate(LocalDateTime startDate, LocalDateTime finishDate, String email);
 
+    List<AttendanceScheduleDto> getAttendanceScheduleWithClientsForDate(LocalDateTime startDate, LocalDateTime finishDate, String email);
+
     List<AttendanceScheduleDto> getAttendanceScheduleForToday(String email);
+
+    List<AttendanceScheduleDto> getAttendanceScheduleWithClientsForToday(String email);
 
     Set<FinanceDto> getFinanceMinus(List<AttendanceScheduleDto> attendanceScheduleDtos);
 

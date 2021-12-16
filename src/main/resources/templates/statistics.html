@@ -31,40 +31,37 @@
                 <a class="nav-link" th:href="@{/attendance}">Attendance Schedule (Today)</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/attendance}">Finance Today()</a>
+                <a class="nav-link" th:href="@{/goal}">Worker's goal</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/attendance}">Finance By Date</a>
+                <a class="nav-link" th:href="@{/finance/date}">Finance By Date</a>
             </li>
-                 <li class="nav-item">
-                <a class="nav-link" th:href="@{/attendance}">Statistic</a>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/statistic/date}">Statistic</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/goal/date}">Goals Review</a>
             </li>
 
         </ul>
     </div>
-</nav>
-<!--<script>-->
+</nav><!--<script>-->
 <!--    let d = new Date();-->
 <!--    document.body.innerHTML = "<h1>Today's date is " + d + "</h1>"-->
 <!--</script>-->
 <div class ="container">
     <div class = "row">
-        <h1> List Clients </h1>
+        <h1> Statistic by date </h1>
     </div>
 
-    <div class = "row">
-        <div class = "col-lg-3">
-            <a th:href = "@{/customers/new}" class = "btn btn-primary btn-sm mb-3"> Add customer</a>
-        </div>
-    </div>
     <table class = "table table-striped table-bordered">
         <thead class = "table-dark">
         <tr>
-            <th> Revenue</th>
-            <th> Total</th>
-            <th> Total</th>
-            <th> Total</th>
-            <th> Total</th>
+            <th> Priority</th>
+            <th> Client Name</th>
+            <th> Sum</th>
+            <th> Average check's value</th>
+            <th> Visit's count</th>
         </tr>
         </thead>
 

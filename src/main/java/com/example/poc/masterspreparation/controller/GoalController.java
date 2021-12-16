@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.security.Principal;
 import java.util.List;
 
-//@Controller
-//@RequiredArgsConstructor
-//@RequestMapping(value = "/goal")
-//public class GoalController {
-//
-//    GoalServiceImpl goalService;
-//
-//
-//
-//}
+@Controller
+@RequiredArgsConstructor
+@RequestMapping()
+public class GoalController {
+
+    GoalServiceImpl goalService;
+
+
+
+}

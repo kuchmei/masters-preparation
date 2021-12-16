@@ -50,29 +50,30 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
-            <h1 class="text-center"> Goal review by date </h1>
+            <h1 class="text-center"> Update Attendance </h1>
             <div class="card-body">
-                <form th:action="@{/goal/byDate}" th:object="${requestDto}" method="GET">
+                <form th:action="@{/goal/{id} (id=${goal.id})}" th:object="${goal}" method="POST">
                     <div class="form-group">
-                        <label> Date </label>
+                        <label> Goal Name </label>
                         <input
-                                type="datetime-local"
-                                name="Start Date"
-                                min="2021-12-01" max="2023-01-01"
-                                th:field="*{startDate}"
+                                type="text"
+                                name="Total"
+
+                                th:field="*{revenueName}"
                                 class="form-control"
-                                placeholder="Enter date for attendance"
+                                placeholder="Enter Total Goal"
                         />
                     </div>
+
                     <div class="form-group">
-                        <label> Date </label>
+                        <label> Total </label>
                         <input
-                                type="datetime-local"
-                                name="Finish Date"
-                                min="2021-12-01" max="2023-01-01"
-                                th:field="*{finishDate}"
+                                type="number"
+                                name="Total"
+
+                                th:field="*{totalPrice}"
                                 class="form-control"
-                                placeholder="Enter date for attendance"
+                                placeholder="Enter Total Goal"
                         />
                     </div>
                     <div class="box-footer">

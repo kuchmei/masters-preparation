@@ -25,12 +25,27 @@
                 <a class="nav-link" th:href="@{/customers}">Client Management</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/customers}">Professional Management</a>
+                <a class="nav-link" th:href="@{/attendance/date}">Attendance Schedule By Date</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/attendance}">Attendance Schedule (Today)</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/goal}">Worker's goal</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/finance/date}">Finance By Date</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/statistic/date}">Statistic</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/goal/date}">Goals Review</a>
+            </li>
+
         </ul>
     </div>
 </nav>
-
 <div class ="container">
     <div class = "row">
         <h1> Error </h1>
@@ -38,7 +53,6 @@
 
     <div class = "row">
         <div class = "col-lg-3">
-            <a th:href = "@{/customers/new}" class = "btn btn-primary btn-sm mb-3"> Add customer</a>
         </div>
     </div>
     <img src="https://st2.depositphotos.com/1526816/6758/v/600/depositphotos_67585141-stock-illustration-oops.jpg" alt="!">

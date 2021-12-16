@@ -31,25 +31,27 @@
                 <a class="nav-link" th:href="@{/attendance}">Attendance Schedule (Today)</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/attendance}">Finance Today()</a>
+                <a class="nav-link" th:href="@{/goal}">Worker's goal</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/attendance}">Finance By Date</a>
+                <a class="nav-link" th:href="@{/finance/date}">Finance By Date</a>
             </li>
-                 <li class="nav-item">
-                <a class="nav-link" th:href="@{/attendance}">Statistic</a>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/statistic/date}">Statistic</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/goal/date}">Goals Review</a>
             </li>
 
         </ul>
     </div>
-</nav>
-<!--<script>-->
+</nav><!--<script>-->
 <!--    let d = new Date();-->
 <!--    document.body.innerHTML = "<h1>Today's date is " + d + "</h1>"-->
 <!--</script>-->
 <div class ="container">
     <div class = "row">
-        <h1> List Clients </h1>
+        <h1> Goals </h1>
     </div>
 
     <div class = "row">
@@ -62,7 +64,7 @@
         <thead class = "table-dark">
         <tr>
             <th> Goal Name</th>
-            <th> Total</th>
+            <th> Sum</th>
         </tr>
         </thead>
 

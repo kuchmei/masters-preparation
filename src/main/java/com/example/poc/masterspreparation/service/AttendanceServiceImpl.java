@@ -53,12 +53,34 @@ public class AttendanceServiceImpl implements AttendanceService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<AttendanceScheduleDto> getAttendanceScheduleWithClientsForDate(LocalDateTime startDate, LocalDateTime finishDate, String email) {
+        return attendanceRepository.findAll().stream()
+                .filter(attendanceSchedule -> attendanceSchedule.getWorker().getEmail().equalsIgnoreCase(email) ||
+                        attendanceSchedule.getClient().getEmail().equalsIgnoreCase(email))
+                .filter(attendanceSchedule -> attendanceSchedule.getDate().compareTo(startDate) >= 0 && attendanceSchedule.getDate().compareTo(finishDate) <= 0)
+                .map(this::toAttendanceScheduleDto)
+                .collect(Collectors.toList());
+    }
+
     public List<AttendanceScheduleDto> getAttendanceScheduleForToday(String email) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String time = dtf.format(LocalDateTime.now());
         return attendanceRepository.findAll().stream()
                 .filter(attendanceSchedule -> attendanceSchedule.getDate().toString().contains(time))
                 .filter(attendanceSchedule -> attendanceSchedule.getWorker().getEmail().equalsIgnoreCase(email))
+                .map(this::toAttendanceScheduleDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AttendanceScheduleDto> getAttendanceScheduleWithClientsForToday(String email) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String time = dtf.format(LocalDateTime.now());
+        return attendanceRepository.findAll().stream()
+                .filter(attendanceSchedule -> attendanceSchedule.getWorker().getEmail().equalsIgnoreCase(email) ||
+                        attendanceSchedule.getClient().getEmail().equalsIgnoreCase(email))
+                .filter(attendanceSchedule -> attendanceSchedule.getDate().toString().contains(time))
                 .map(this::toAttendanceScheduleDto)
                 .collect(Collectors.toList());
     }
@@ -116,13 +138,13 @@ public class AttendanceServiceImpl implements AttendanceService {
         attendanceRepository.delete(attendanceSchedule);
     }
 
-    public List<StatisticDto> getStatistic(List<AttendanceScheduleDto> attendanceScheduleDtos){
+    public List<StatisticDto> getStatistic(List<AttendanceScheduleDto> attendanceScheduleDtos) {
         List<StatisticDto> statisticDtos = new ArrayList<>();
         List<Integer> sums = new ArrayList<>();
         Set<String> emails = attendanceScheduleDtos.stream()
                 .map(AttendanceScheduleDto::getClientEmail)
                 .collect(Collectors.toSet());
-        for(String email : emails) {
+        for (String email : emails) {
             Integer sum = attendanceScheduleDtos.stream()
                     .filter(attendanceScheduleDto -> attendanceScheduleDto.getClientEmail().equals(email))
                     .mapToInt(AttendanceScheduleDto::getSum)
@@ -131,19 +153,19 @@ public class AttendanceServiceImpl implements AttendanceService {
             Integer count = attendanceScheduleDtos.stream()
                     .filter(attendanceScheduleDto -> attendanceScheduleDto.getClientEmail().equals(email))
                     .collect(Collectors.toList()).size();
-            if (sum>0) {
+            if (sum > 0) {
                 statisticDtos.add(new StatisticDto(email, sum, count, sum / count));
                 sums.add(sum);
             }
         }
         Collections.sort(sums);
         Collections.reverse(sums);
-        for (Integer sum : sums){
-           Optional<StatisticDto> statisticDto = statisticDtos.stream()
-                    .filter(dto-> dto.getSum().equals(sum)&&dto.getPriority()==null)
+        for (Integer sum : sums) {
+            Optional<StatisticDto> statisticDto = statisticDtos.stream()
+                    .filter(dto -> dto.getSum().equals(sum) && dto.getPriority() == null)
                     .findFirst();
 
-           statisticDto.get().setPriority(sums.indexOf(sum)+1);
+            statisticDto.get().setPriority(sums.indexOf(sum) + 1);
         }
         statisticDtos.sort(Comparator.comparing(StatisticDto::getPriority));
         return statisticDtos;

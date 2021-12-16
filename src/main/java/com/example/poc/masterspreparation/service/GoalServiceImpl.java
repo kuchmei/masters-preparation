@@ -27,39 +27,39 @@ public class GoalServiceImpl {
     public List<GoalDto> getAllGoalsByEmail(String email) {
         return goalRepository.findAll().stream()
                 .filter(goal -> goal.getEmployee().getEmail().equals(email))
-                .map(this::toFinanceDto)
+                .map(this::toGoalDto)
                 .collect(Collectors.toList());
     }
 
-    public List<GoalReviewDto> getGoalReviews (LocalDateTime start, LocalDateTime finish, String email){
+    public List<GoalReviewDto> getGoalReviews(LocalDateTime start, LocalDateTime finish, String email) {
         List<GoalReviewDto> goalReviewDtos = new ArrayList<>();
-    Set<FinanceDto> financeDtos = attendanceService.
-            getFinancePlus(attendanceService.getAttendanceScheduleForDate(start, finish, email));
+        Set<FinanceDto> financeDtos = attendanceService.
+                getFinancePlus(attendanceService.getAttendanceScheduleForDate(start, finish, email));
 
-    List<GoalDto> goalDtos = getAllGoalsByEmail(email);
+        List<GoalDto> goalDtos = getAllGoalsByEmail(email);
 
-    for (GoalDto goal : goalDtos) {
+        for (GoalDto goal : goalDtos) {
 
-       Optional<FinanceDto> financeDto = financeDtos.stream()
-                .filter(finance -> finance.getRevenueName().equals(goal.getRevenueName()))
-               .findFirst();
+            Optional<FinanceDto> financeDto = financeDtos.stream()
+                    .filter(finance -> finance.getRevenueName().equals(goal.getRevenueName()))
+                    .findFirst();
 
-       if (financeDto.isPresent()){
-           int sum = (financeDto.get().getTotalPrice()*100)/goal.getTotalPrice();
-           GoalReviewDto goalReviewDto = new GoalReviewDto();
-           goalReviewDto.setName(goal.getRevenueName());
-           goalReviewDto.setGoal(goal.getTotalPrice());
-           goalReviewDto.setComment("Got "+ sum  + " %");
+            if (financeDto.isPresent()) {
+                int sum = (financeDto.get().getTotalPrice() * 100) / goal.getTotalPrice();
+                GoalReviewDto goalReviewDto = new GoalReviewDto();
+                goalReviewDto.setName(goal.getRevenueName());
+                goalReviewDto.setGoal(goal.getTotalPrice());
+                goalReviewDto.setComment("Got " + sum + " %");
 
-           goalReviewDtos.add(goalReviewDto);
+                goalReviewDtos.add(goalReviewDto);
 
-       }
+            }
+        }
+        return goalReviewDtos;
+
     }
-    return goalReviewDtos;
 
-    }
-
-    private GoalDto toFinanceDto(Goal goal) {
+    private GoalDto toGoalDto(Goal goal) {
         return new GoalDto(goal.getId(), goal.getName(), goal.getSum());
     }
 
@@ -71,5 +71,23 @@ public class GoalServiceImpl {
 
         goalRepository.save(goal);
 
+    }
+
+    public GoalDto getGoalDtoById(Long id) {
+        return toGoalDto(goalRepository.findById(id).get());
+    }
+
+    public void updateGoal(GoalDto goalDto, Long id, String email) {
+        Goal goal = new Goal();
+        goal.setEmployee(customerRepository.findByEmail(email));
+        goal.setSum(goalDto.getTotalPrice());
+        goal.setName(goalDto.getRevenueName());
+        goal.setId(id);
+
+        goalRepository.save(goal);
+    }
+
+    public void deleteGoalById(Long id) {
+        goalRepository.deleteById(id);
     }
 }
