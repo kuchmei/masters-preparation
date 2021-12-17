@@ -3,14 +3,11 @@ package com.example.poc.masterspreparation.controller;
 import com.example.poc.masterspreparation.dto.CustomerDto;
 import com.example.poc.masterspreparation.model.Customer;
 import com.example.poc.masterspreparation.service.CustomerService;
-import com.example.poc.masterspreparation.service.MailService;
 import com.sun.istack.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 
 @Controller

@@ -5,7 +5,6 @@ import com.example.poc.masterspreparation.dto.FinanceDto;
 import com.example.poc.masterspreparation.dto.StatisticDto;
 import com.example.poc.masterspreparation.dto.TotalPriceDto;
 import com.example.poc.masterspreparation.model.AttendanceSchedule;
-import com.example.poc.masterspreparation.model.Customer;
 import com.example.poc.masterspreparation.repository.AttendanceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
