@@ -15,12 +15,12 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping(value = "/attendance")
 public class AttendanceController {
 
     private final AttendanceService attendanceService;
-    private final GoalServiceImpl goalService;
 
-    @GetMapping("/attendance")
+    @GetMapping()
     public String listAttendance(Model model,
                                 @ModelAttribute("price") TotalPriceDto totalPriceDto,
                                 Principal principal) {
@@ -32,47 +32,22 @@ public class AttendanceController {
         return "attendances";
     }
 
-    @GetMapping("/attendance/date")
+    @GetMapping("/date")
     public String listCustomersByDate(Model model) {
         ScheduleRequestDto requestDto = new ScheduleRequestDto();
         model.addAttribute("requestDto", requestDto);
         return "create_request-by-date-for-attendance";
     }
 
-    @GetMapping("/finance/date")
-    public String FinancesByDate(Model model) {
-        ScheduleRequestDto requestDto = new ScheduleRequestDto();
-        model.addAttribute("requestDto", requestDto);
-        return "create_request-by-date-for-finance";
-    }
 
-    @GetMapping("/goal/date")
-    public String GoalsByDate(Model model) {
-        ScheduleRequestDto requestDto = new ScheduleRequestDto();
-        model.addAttribute("requestDto", requestDto);
-        return "create_request-by-date-for-goal-review";
-    }
-
-    @GetMapping("/statistic/date")
-    public String StatisticByDate(Model model) {
-        ScheduleRequestDto requestDto = new ScheduleRequestDto();
-        model.addAttribute("requestDto", requestDto);
-        return "create_request-by-date-for-statistic";
-    }
-
-    @GetMapping("/attendance/new")
+    @GetMapping("/new")
     public String createAttendanceForm(Model model) {
         AttendanceScheduleDto attendance = new AttendanceScheduleDto();
         model.addAttribute("attendance", attendance);
         return "create_attendance";
     }
 
-//    @GetMapping(value = "/attendance/today")
-//    public List<AttendanceScheduleDto> getAttendanceForToday(@ModelAttribute("attendances") AttendanceScheduleDto attendance, Principal principal) {
-//        return attendanceService.getAttendanceScheduleForToday(principal.getName());
-//    }
-
-    @GetMapping(value = "/attendance/byDate")
+    @GetMapping(value = "/byDate")
     public String getAttendanceByDate(@ModelAttribute ScheduleRequestDto attendanceRequestDto,
                                       @ModelAttribute("price") TotalPriceDto totalPriceDto, Model model, Principal principal) {
         List<AttendanceScheduleDto> attendanceScheduleForDate = attendanceService.getAttendanceScheduleWithClientsForDate
@@ -82,15 +57,7 @@ public class AttendanceController {
         return "attendances";
     }
 
-    @GetMapping(value = "/goal/byDate")
-    public String getGoalByDate(@ModelAttribute ScheduleRequestDto attendanceRequestDto,
-                                Model model, Principal principal) {
-        model.addAttribute("goals", goalService.getGoalReviews(LocalDateTime.parse(attendanceRequestDto.getStartDate()),
-                LocalDateTime.parse(attendanceRequestDto.getFinishDate()), principal.getName()));
-        return "goals-review";
-    }
-
-    @PostMapping(value = "/attendance")
+    @PostMapping(value = "")
     public String addAttendance(@ModelAttribute("attendance") AttendanceScheduleDto attendance,
                                 @ModelAttribute("price") TotalPriceDto totalPriceDto,
                                 Model model, Principal principal) {
@@ -102,13 +69,13 @@ public class AttendanceController {
         return "attendances";
     }
 
-    @GetMapping("/attendance/edit/{id}")
+    @GetMapping("/edit/{id}")
     public String editAttendanceForm(@PathVariable Long id, @NotNull Model model) {
         model.addAttribute("attendance", attendanceService.getAttendanceScheduleById(id));
         return "edit_attendance";
     }
 
-    @PostMapping("/attendance/{id}")
+    @PostMapping("/{id}")
     public String updateAttendance(@PathVariable Long id,
                                    @ModelAttribute("attendance") AttendanceScheduleDto attendanceScheduleDto,
                                    @ModelAttribute("price") TotalPriceDto totalPriceDto, Principal principal, Model model) {
@@ -120,7 +87,7 @@ public class AttendanceController {
         return "attendances";
     }
 
-    @GetMapping("/attendance/{id}")
+    @GetMapping("/{id}")
     public String deleteAttendance(@PathVariable Long id, Model model,
                                    @ModelAttribute("price") TotalPriceDto totalPriceDto,
                                    Principal principal) {
@@ -129,88 +96,6 @@ public class AttendanceController {
         model.addAttribute("attendances", attendanceScheduleForToday);
         model.addAttribute("price", attendanceService.getTotalPrice(attendanceScheduleForToday));
         return "attendances";
-    }
-
-//    @GetMapping(value = "/finance/today")
-//    public Integer getFinanceForToday(Principal principal) {
-//        return attendanceService.getFinance(attendanceService.getAttendanceScheduleForToday(principal.getName()));
-//    }
-
-    @GetMapping(value = "/finance/byDate")
-    public String getFinanceForByDate(@ModelAttribute ScheduleRequestDto attendanceRequestDto,
-                                      @ModelAttribute FinanceDto financeDto,
-                                      Model model,
-                                      Principal principal) {
-        model.addAttribute("financesMinus", attendanceService.getFinanceMinus(
-                attendanceService.getAttendanceScheduleForDate(LocalDateTime.parse(attendanceRequestDto.getStartDate()),
-                        LocalDateTime.parse(attendanceRequestDto.getFinishDate()), principal.getName())));
-        model.addAttribute("financesPlus", attendanceService.getFinancePlus(
-                attendanceService.getAttendanceScheduleForDate(LocalDateTime.parse(attendanceRequestDto.getStartDate()),
-                        LocalDateTime.parse(attendanceRequestDto.getFinishDate()), principal.getName())));
-
-        return "finances";
-    }
-
-    @GetMapping(value = "/statistic/byDate")
-    public String getStatisticByDate(@ModelAttribute ScheduleRequestDto attendanceRequestDto,
-                                     @ModelAttribute StatisticDto statisticDto,
-                                     Model model,
-                                     Principal principal) {
-        model.addAttribute("statisticDtos", attendanceService.getStatistic(
-                attendanceService.getAttendanceScheduleForDate(LocalDateTime.parse(attendanceRequestDto.getStartDate()),
-                        LocalDateTime.parse(attendanceRequestDto.getFinishDate()), principal.getName())));
-
-        return "statistics";
-    }
-
-    @GetMapping(value = "/goal/new")
-    public String createGoal(Model model) {
-        GoalDto financeDto = new GoalDto();
-        model.addAttribute("goal", financeDto);
-        return "create_goal";
-    }
-
-    @PostMapping(value = "/goal")
-    public String addAGoal(@ModelAttribute("goal") GoalDto goalDto,
-                           Model model, Principal principal) {
-        goalService.saveGoal(goalDto, principal.getName());
-
-        model.addAttribute("goals", goalService.getAllGoalsByEmail(principal.getName()));
-
-        return "goals";
-    }
-
-    @GetMapping(value = "/goal")
-    public String getGoals(Model model, Principal principal) {
-
-        model.addAttribute("goals", goalService.getAllGoalsByEmail(principal.getName()));
-
-        return "goals";
-    }
-
-    @GetMapping("/goal/edit/{id}")
-    public String editGoalForm(@PathVariable Long id, @NotNull Model model) {
-        model.addAttribute("goal", goalService.getGoalDtoById(id));
-        return "edit_goal";
-    }
-
-    @PostMapping("/goal/{id}")
-    public String updateGoal(@PathVariable Long id,
-                                   @ModelAttribute("goal") GoalDto goalDto,
-                                   Principal principal, Model model) {
-        goalService.updateGoal(goalDto, id, principal.getName());
-        model.addAttribute("goals", goalService.getAllGoalsByEmail(principal.getName()));
-
-        return "goals";
-    }
-
-    @GetMapping("/goal/{id}")
-    public String deleteGoal(@PathVariable Long id, Model model,
-                                   Principal principal) {
-        goalService.deleteGoalById(id);
-
-        model.addAttribute("goals", goalService.getAllGoalsByEmail(principal.getName()));
-        return "goals";
     }
 
 }
